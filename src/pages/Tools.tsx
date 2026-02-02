@@ -37,7 +37,7 @@ const categories: Category[] = [
     name: '在线工具',
     icon: <Wrench className="h-5 w-5" />,
     tools: [
-      { id: '6', name: 'OpenI AI中文版', description: 'OpenI AI助手，提供免费的国...', url: '#' },
+      { id: '6', name: 'AIScape AI中文版', description: 'AIScape AI助手，提供免费的国...', url: '#' },
       { id: '7', name: 'PDF24 Tools', description: '免费PDF工具集', url: '#' },
       { id: '8', name: '67工具网', description: '即用即走型在线工具', url: '#' },
       { id: '9', name: '千盒工具', description: '免费在线工具网站', url: '#' },

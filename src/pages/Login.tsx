@@ -23,7 +23,7 @@ export default function Login() {
         {/* Logo */}
         <div className="text-center">
           <Link to="/" className="inline-flex items-center space-x-2">
-            <span className="text-3xl font-bold text-blue-600">OpenI</span>
+            <span className="text-3xl font-bold text-blue-600">AIScape</span>
             <span className="text-lg text-gray-500">AI时代</span>
           </Link>
           <h2 className="mt-6 text-2xl font-medium text-gray-900">

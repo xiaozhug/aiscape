@@ -4,7 +4,7 @@ import { hotNews } from '@/data/toolsConfig';
 
 const quickAccess = [
   { label: '专业导航', href: '/' },
-  { label: 'OpenI AI助手', href: 'https://chat.openi.cn' },
+  { label: 'AIScape AI助手', href: 'https://chat.openi.cn' },
   { label: '名站直达', href: '/' },
   { label: '在线工具', href: '/tools' },
   { label: '热点榜', href: '/hotnews' },

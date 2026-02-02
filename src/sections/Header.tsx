@@ -79,7 +79,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-blue-600">OpenI</span>
+            <span className="text-2xl font-bold text-blue-600">AIScape</span>
             <span className="text-sm text-gray-500 hidden sm:inline">AI时代</span>
           </Link>
 
@@ -128,7 +128,7 @@ export default function Header() {
               className="hidden md:flex items-center text-sm text-blue-600 hover:text-blue-700"
             >
               <Bot className="mr-1 h-4 w-4" />
-              OpenI AI助手入口
+              AIScape AI助手入口
             </a>
             <Link to="/login">
               <Button variant="outline" size="sm" className="hidden sm:flex">
@@ -187,7 +187,7 @@ export default function Header() {
                   className="flex items-center px-3 py-2 text-base text-blue-600"
                 >
                   <Bot className="mr-2 h-5 w-5" />
-                  OpenI AI助手入口
+                  AIScape AI助手入口
                 </a>
                 <Link
                   to="/login"

@@ -202,7 +202,7 @@ export default function ToolDetail() {
 
               {/* Ad Banner */}
               <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-6 text-white">
-                <h3 className="font-semibold mb-2">OpenI AI助手</h3>
+                <h3 className="font-semibold mb-2">AIScape AI助手</h3>
                 <p className="text-sm opacity-90 mb-4">
                   提供免费的国产AI对话服务，支持多种大模型
                 </p>

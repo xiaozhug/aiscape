@@ -32,7 +32,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <span className="text-2xl font-bold text-white">OpenI</span>
+              <span className="text-2xl font-bold text-white">AIScape</span>
               <span className="text-sm text-gray-400">AI时代</span>
             </div>
             <p className="text-sm text-gray-400 mb-4">
@@ -174,7 +174,7 @@ export default function Footer() {
             <div className="text-sm text-gray-500">
               Copyright © 2026{' '}
               <Link to="/" className="text-gray-400 hover:text-white">
-                OpenI
+                AIScape
               </Link>{' '}
               广州良知品牌管理有限公司 版权所有
             </div>
