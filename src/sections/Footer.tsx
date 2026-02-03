@@ -25,17 +25,17 @@ const friendLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-gray-300">
+    <footer className="bg-slate-950 text-slate-300">
       {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <span className="text-2xl font-bold text-white">AIScape</span>
-              <span className="text-sm text-gray-400">AI时代</span>
+              <span className="text-2xl font-bold text-white">AI<span className="text-blue-400">Scape</span></span>
+              <span className="text-xs text-slate-400">AI时代</span>
             </div>
-            <p className="text-sm text-gray-400 mb-4">
+            <p className="text-sm text-slate-400 mb-5">
               专业的AI工具导航平台，汇聚全球优质AI工具和资源，助力您的工作和创作。
             </p>
             <div className="flex items-center space-x-4">
@@ -54,7 +54,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div>
             <h3 className="text-white font-medium mb-4">快速链接</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-slate-400">
               <li>
                 <Link to="/" className="text-sm hover:text-white transition-colors">
                   首页
@@ -91,7 +91,7 @@ export default function Footer() {
           {/* Categories */}
           <div>
             <h3 className="text-white font-medium mb-4">工具分类</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-slate-400">
               <li>
                 <a href="#" className="text-sm hover:text-white transition-colors">
                   AI写作对话
@@ -128,19 +128,19 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h3 className="text-white font-medium mb-4">联系我们</h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 text-slate-400">
               <li className="flex items-start">
-                <MapPin className="h-4 w-4 mt-0.5 mr-2 text-gray-400" />
+                <MapPin className="h-4 w-4 mt-0.5 mr-2 text-slate-500" />
                 <span className="text-sm">广州市</span>
               </li>
               <li className="flex items-center">
-                <Mail className="h-4 w-4 mr-2 text-gray-400" />
+                <Mail className="h-4 w-4 mr-2 text-slate-500" />
                 <a href="mailto:contact@openi.cn" className="text-sm hover:text-white transition-colors">
                   contact@openi.cn
                 </a>
               </li>
               <li className="flex items-center">
-                <Phone className="h-4 w-4 mr-2 text-gray-400" />
+                <Phone className="h-4 w-4 mr-2 text-slate-500" />
                 <span className="text-sm">联系站长</span>
               </li>
             </ul>
@@ -148,14 +148,14 @@ export default function Footer() {
         </div>
 
         {/* Friend Links */}
-        <div className="mt-12 pt-8 border-t border-gray-800">
-          <h3 className="text-sm font-medium text-gray-400 mb-4">友情链接</h3>
+        <div className="mt-12 pt-8 border-t border-slate-800/70">
+          <h3 className="text-sm font-medium text-slate-400 mb-4">友情链接</h3>
           <div className="flex flex-wrap gap-3">
             {friendLinks.map((link) => (
               <a
                 key={link}
                 href="#"
-                className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
+                className="text-xs text-slate-500 hover:text-slate-200 transition-colors"
               >
                 {link}
               </a>
@@ -168,22 +168,22 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800">
+      <div className="border-t border-slate-800/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-slate-500">
               Copyright © 2026{' '}
-              <Link to="/" className="text-gray-400 hover:text-white">
+              <Link to="/" className="text-slate-300 hover:text-white">
                 AIScape
               </Link>{' '}
               广州良知品牌管理有限公司 版权所有
             </div>
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-4 text-sm text-slate-500">
               <a
                 href="https://beian.miit.gov.cn/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-gray-400"
+                className="hover:text-slate-300"
               >
                 粤ICP备19001258号
               </a>
@@ -191,11 +191,11 @@ export default function Footer() {
                 href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=44011502001135"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-gray-400"
+                className="hover:text-slate-300"
               >
                 粤公网安备 44011502001135号
               </a>
-              <Link to="/sitemap" className="hover:text-gray-400">
+              <Link to="/sitemap" className="hover:text-slate-300">
                 SiteMap
               </Link>
             </div>

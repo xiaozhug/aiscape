@@ -1,13 +1,29 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, Menu, X, Bot, User } from 'lucide-react';
+import { Menu, X, Bot, User } from 'lucide-react';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@/components/ui/navigation-menu';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from '@/components/ui/drawer';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
+import { getCategoryAnchor, getGroupAnchor, getNavTree } from '@/data/navigationConfig';
 
 interface NavItem {
   label: string;
@@ -15,108 +31,108 @@ interface NavItem {
   children?: { label: string; href: string }[];
 }
 
-const navItems: NavItem[] = [
-  { label: '推荐工具', href: '#recommended' },
-  { label: 'AI工具集', href: '#ai-tools' },
-  {
-    label: 'AI社区',
-    href: '#ai-community',
-    children: [
-      { label: 'AI平台模型', href: '#' },
-      { label: 'AI开源项目', href: '#' },
-      { label: 'AI学习资源', href: '#' },
-      { label: 'GPTs应用', href: '#' },
-    ],
-  },
-  {
-    label: '资源素材',
-    href: '#resources',
-    children: [
-      { label: 'PPT资源', href: '#' },
-      { label: '免商图片', href: '#' },
-      { label: '视频素材', href: '#' },
-      { label: '音乐素材', href: '#' },
-    ],
-  },
-  {
-    label: '创作工具',
-    href: '#creative',
-    children: [
-      { label: '图片处理', href: '#' },
-      { label: '视频剪辑', href: '#' },
-      { label: '思维导图', href: '#' },
-      { label: '排版编辑', href: '#' },
-    ],
-  },
-  {
-    label: '媒体运营',
-    href: '#media',
-    children: [
-      { label: '知识付费', href: '#' },
-      { label: '实时热榜', href: '#' },
-      { label: '媒体平台', href: '#' },
-      { label: '数据分析', href: '#' },
-    ],
-  },
-  {
-    label: '行业圈子',
-    href: '#industry',
-    children: [
-      { label: 'AI服务商', href: '#' },
-      { label: '独立开发', href: '#' },
-      { label: '电商运营', href: '#' },
-      { label: '教育学习', href: '#' },
-    ],
-  },
-];
+const MAX_CHILDREN_PER_COL = 6;
+const MAX_COLS = 3;
+
+function chunkChildren(children: { label: string; href: string }[]) {
+  const chunks: { label: string; href: string }[][] = [];
+  for (let i = 0; i < children.length; i += MAX_CHILDREN_PER_COL) {
+    chunks.push(children.slice(i, i + MAX_CHILDREN_PER_COL));
+  }
+  return chunks.slice(0, MAX_COLS);
+}
+
+function getGridColsClass(columns: number) {
+  if (columns <= 1) return 'grid-cols-1';
+  if (columns === 2) return 'grid-cols-2';
+  return 'grid-cols-3';
+}
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navItems = useMemo<NavItem[]>(() => {
+    const tree = getNavTree();
+    const items = tree.map((group) => ({
+      label: group.label,
+      href: `/#${getGroupAnchor(group)}`,
+      children: group.categories.map((category) => ({
+        label: category.name,
+        href: `/#${getCategoryAnchor(category)}`,
+      })),
+    }));
+
+    return [
+      { label: '全部工具', href: '/#top' },
+      ...items,
+    ];
+  }, []);
+
+  const navColumns = useMemo(() => {
+    return navItems.map((item) => {
+      if (!item.children?.length) {
+        return { ...item, columns: [] as { label: string; href: string }[][] };
+      }
+      return { ...item, columns: chunkChildren(item.children) };
+    });
+  }, [navItems]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur shadow-sm tech-header relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-blue-600">AIScape</span>
-            <span className="text-sm text-gray-500 hidden sm:inline">AI时代</span>
+            <span className="text-2xl font-bold text-slate-900">
+              AI<span className="text-blue-600">Scape</span>
+            </span>
+            <span className="text-xs text-slate-500 hidden sm:inline">AI时代</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) =>
-              item.children ? (
-                <DropdownMenu key={item.label}>
-                  <DropdownMenuTrigger asChild>
-                    <button className="flex items-center px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors">
-                      {item.label}
-                      <ChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="w-40">
-                    {item.children.map((child) => (
-                      <DropdownMenuItem key={child.label} asChild>
-                        <a
-                          href={child.href}
-                          className="cursor-pointer"
+          <nav className="hidden lg:flex items-center">
+            <NavigationMenu viewport={false}>
+              <NavigationMenuList className="flex-wrap justify-start">
+                {navColumns.map((item) =>
+                  item.children?.length ? (
+                    <NavigationMenuItem key={item.label}>
+                      <NavigationMenuTrigger className="text-slate-700 hover:text-blue-600 data-[state=open]:text-blue-600 data-[state=open]:bg-blue-50/60 rounded-full px-3 py-2">
+                        {item.label}
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent className="p-4 rounded-xl border border-slate-200/70 bg-white/95 shadow-xl backdrop-blur">
+                        <div
+                          className={`grid gap-3 ${getGridColsClass(
+                            Math.max(1, item.columns.length)
+                          )} min-w-[240px]`}
                         >
-                          {child.label}
-                        </a>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="px-3 py-2 text-sm text-gray-700 hover:text-blue-600 transition-colors"
-                >
-                  {item.label}
-                </a>
-              )
-            )}
+                          {item.columns.map((column, index) => (
+                            <div key={`${item.label}-col-${index}`} className="space-y-1">
+                              {column.map((child) => (
+                                <NavigationMenuLink
+                                  key={child.label}
+                                  href={child.href}
+                                  className="block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-blue-50/70 hover:text-blue-700"
+                                >
+                                  {child.label}
+                                </NavigationMenuLink>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  ) : (
+                    <NavigationMenuItem key={item.label}>
+                      <NavigationMenuLink
+                        href={item.href}
+                        className="px-3 py-2 text-sm text-slate-700 hover:text-blue-600 hover:bg-slate-100/70 rounded-full"
+                      >
+                        {item.label}
+                      </NavigationMenuLink>
+                    </NavigationMenuItem>
+                  )
+                )}
+              </NavigationMenuList>
+            </NavigationMenu>
           </nav>
 
           {/* Right Side Actions */}
@@ -128,19 +144,19 @@ export default function Header() {
               className="hidden md:flex items-center text-sm text-blue-600 hover:text-blue-700"
             >
               <Bot className="mr-1 h-4 w-4" />
-              AIScape AI助手入口
+              AI助手
             </a>
             <Link to="/login">
-              <Button variant="outline" size="sm" className="hidden sm:flex">
+              <Button variant="outline" size="sm" className="hidden sm:flex border-slate-200 text-slate-700 hover:bg-slate-100">
                 <User className="mr-1 h-4 w-4" />
                 登录
               </Button>
             </Link>
-            
+
             {/* Mobile Menu Button */}
             <button
               className="lg:hidden p-2"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => setMobileMenuOpen((open) => !open)}
             >
               {mobileMenuOpen ? (
                 <X className="h-6 w-6 text-gray-600" />
@@ -151,47 +167,70 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <nav className="lg:hidden py-4 border-t border-gray-100">
-            <div className="space-y-1">
-              {navItems.map((item) => (
-                <div key={item.label}>
-                  <a
-                    href={item.href}
-                    className="block px-3 py-2 text-base text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                  {item.children && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {item.children.map((child) => (
-                        <a
-                          key={child.label}
-                          href={child.href}
-                          className="block px-3 py-2 text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-md"
-                        >
-                          {child.label}
-                        </a>
-                      ))}
+        {/* Mobile Navigation Drawer */}
+        <Drawer open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} direction="left">
+          <DrawerContent className="bg-white/95 p-0 backdrop-blur">
+            <DrawerHeader className="flex items-center justify-between border-b border-slate-200/70">
+              <DrawerTitle className="text-base font-semibold text-slate-900">
+                菜单
+              </DrawerTitle>
+              <DrawerClose asChild>
+                <button
+                  className="rounded-md p-2 text-gray-600 hover:bg-gray-100"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </DrawerClose>
+            </DrawerHeader>
+            <div className="max-h-[80vh] overflow-y-auto px-4 pb-6">
+              <Accordion type="multiple" className="w-full">
+                {navItems.map((item) =>
+                  item.children?.length ? (
+                    <AccordionItem key={item.label} value={item.label}>
+                      <AccordionTrigger className="text-base text-slate-800">
+                        {item.label}
+                      </AccordionTrigger>
+                      <AccordionContent className="space-y-1">
+                        {item.children.map((child) => (
+                          <a
+                            key={child.label}
+                            href={child.href}
+                            className="block rounded-md px-2 py-2 text-sm text-slate-600 hover:bg-blue-50/70 hover:text-blue-700"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            {child.label}
+                          </a>
+                        ))}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ) : (
+                    <div key={item.label} className="border-b border-slate-200/70">
+                      <a
+                        href={item.href}
+                        className="block py-4 text-base text-slate-800"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </a>
                     </div>
-                  )}
-                </div>
-              ))}
-              <div className="pt-4 mt-4 border-t border-gray-100">
+                  )
+                )}
+              </Accordion>
+              <div className="mt-4 border-t border-slate-200/70 pt-4">
                 <a
                   href="https://chat.openi.cn"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center px-3 py-2 text-base text-blue-600"
+                  className="flex items-center rounded-md px-2 py-2 text-blue-600 hover:bg-blue-50"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <Bot className="mr-2 h-5 w-5" />
-                  AIScape AI助手入口
+                  AI助手
                 </a>
                 <Link
                   to="/login"
-                  className="flex items-center px-3 py-2 text-base text-gray-700"
+                  className="mt-2 flex items-center rounded-md px-2 py-2 text-slate-700 hover:bg-slate-100"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <User className="mr-2 h-5 w-5" />
@@ -199,9 +238,9 @@ export default function Header() {
                 </Link>
               </div>
             </div>
-          </nav>
-        )}
+          </DrawerContent>
+        </Drawer>
       </div>
-    </header>
-  );
-}
+     </header>
+   );
+ }

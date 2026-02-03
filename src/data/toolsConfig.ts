@@ -43,6 +43,12 @@ export interface SearchTag {
   icon?: string;
 }
 
+// Quick links used by SearchSection
+export interface QuickLink {
+  label: string;
+  url: string;
+}
+
 // ==================== 分类配置 ====================
 export const categories: CategoryConfig[] = [
   // 一级分类 - AI工具集
@@ -1114,17 +1120,7 @@ export const searchTags: SearchTag[] = [
 ];
 
 // ==================== 快捷链接配置 ====================
-export const quickLinks = [
-  { label: 'ChatGPT', url: 'https://chat.openai.com' },
-  { label: '论文写作神器', url: '/tools' },
-  { label: '国产大模型', url: '/favorites/cat_platform' },
-  { label: '在线工具', url: '/tools' },
-  { label: '证件照', url: '/favorites/cat_image_edit' },
-  { label: '二维码工具', url: '/favorites/4773' },
-  { label: 'PDF工具', url: '/favorites/4971' },
-  { label: '视频处理', url: '/favorites/4986' },
-  { label: 'VIP视频', url: '#' },
-];
+export const quickLinks: QuickLink[] = [];
 
 // ==================== 热点新闻配置 ====================
 export const hotNews = [
